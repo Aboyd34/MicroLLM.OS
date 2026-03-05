@@ -1,0 +1,5 @@
+{
+  "name": "MicroLLM-4GB Desktop",
+  "description": "Windows Native Application for the MicroLLM project, designed for 4GB RAM hardware.",
+  "requestFramePermissions": []
+}
