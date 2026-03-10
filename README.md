@@ -1,20 +1,74 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# MicroLLM.OS
 
-# Run and deploy your AI Studio app
+> Offline-first AI desktop app. Local model + Gemini fallback. No subscriptions.
 
-This contains everything you need to run your app locally.
+![License](https://img.shields.io/badge/license-MIT-green)
+![Offline](https://img.shields.io/badge/local%20inference-node--llama--cpp-blue)
+![Gemini](https://img.shields.io/badge/Gemini-free%20tier-orange)
 
-View your app in AI Studio: https://ai.studio/apps/86820a87-e4c8-4928-a09f-97e42f311c2e
+---
 
-## Run Locally
+## Quick Start
 
-**Prerequisites:**  Node.js
+```bash
+# 1. Install dependencies
+npm install
 
+# 2. Set up environment
+copy .env.example .env
+# Edit .env and add your GEMINI_API_KEY (free at https://aistudio.google.com/apikey)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+# 3. (Optional) Download local offline model — one-time, ~4.9GB
+npm run download-model
+
+# 4. Launch the app
+npm run electron:dev
+```
+
+---
+
+## AI Backends
+
+| Backend | Cost | Internet | Setup |
+|---|---|---|---|
+| Local (node-llama-cpp) | Free forever | ❌ Not needed | Download model once |
+| Gemini 2.0 Flash | Free (1500/day) | ✅ Required | Add API key to .env |
+
+---
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run download-model` | Download offline GGUF model |
+| `npm run electron:dev` | Launch Electron desktop app |
+| `npm run electron:build` | Build Windows installer |
+| `npm run server` | Start REST API bridge (port 4000) |
+| `npm run gemini` | Gemini interactive CLI |
+| `npm run dev` | Vite web-only dev server |
+
+---
+
+## REST API Bridge
+
+```bash
+npm run server
+
+# Check status
+curl http://localhost:4000/api/status
+
+# Local model
+curl -X POST http://localhost:4000/api/generate \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Hello!", "backend": "local"}'
+
+# Gemini
+curl -X POST http://localhost:4000/api/generate \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "Hello!", "backend": "gemini"}'
+```
+
+---
+
+## License
+MIT
